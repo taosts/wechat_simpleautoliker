@@ -104,3 +104,5 @@ A simple script program, written in Python, uses a fusion of image recognition a
 
 8.  **查BUG**
     你可以在文件夹内的 `processed_log.txt` 中找到你的脚本上一次运行的结尾日期，我也在代码中留了保存识别结果截图的选项，把对应的代码注释给解除就可以用了。
+
+    后续不会提供更新，本人不对代码造成的任何影响负责，项目脚本仅供学习使用。如果各位有更好的修改方案，请留个Comment给我，感谢各位。
