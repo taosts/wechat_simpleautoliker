@@ -105,5 +105,104 @@ A simple script program, written in Python, uses a fusion of image recognition a
 
 8.  **查BUG**
     你可以在文件夹内的 `processed_log.txt` 中找到你的脚本上一次运行的结尾日期，我也在代码中留了保存识别结果截图的选项，把对应的代码注释给解除就可以用了。
+---
 
+# WeChat PC "Official Accounts" Automation Script
+
+> **Foreword:**
+>
+> This Python script was originally intended to automatically "Like," "Share," and "Favorite" all published articles from a specific Official Account. It was later confirmed that this operation is entirely meaningless.
+> However, after many iterations, the overall program runs well with no significant bugs, so it is being kept as a memento.
+> There will be no subsequent updates. I am not responsible for any impact caused by the code. The project script is only for learning purposes. If you have a better modification plan, please leave me a comment. Thank you.
+
+This is an automation script designed specifically for the **Windows 11** PC version of WeChat, targeting "Official Accounts" (Subscriptions).
+
+It combines `pywinauto` (UI element-based) and `pyautogui` (image recognition-based) techniques to simulate manual operation. It automatically browses the subscription feed, and based on user selection, intelligently executes "Like/Favorite" or "Forward to File Transfer Assistant." It can automatically log and read its progress, resuming from the last interrupted date, and will automatically catch up if it detects it has fallen behind (e.g., after an application crash and restart).
+
+## Features
+
+1.  **Mode Selection**: On launch, the script prompts the user to select either `[1] Like/Favorite` or `[2] Forward` mode.
+    * **Mode 1 (Auto Like/Favorite)**: Automatically opens articles, finds, and clicks the "Like" and "Favorite" icons.
+    * **Mode 2 (Auto Forward)**: Automatically opens articles, simulates clicking "Forward" -> "File Transfer Assistant" -> "Send".
+
+2.  **State Memory (Context-Aware)**: Automatically reads the last processed date from `processed_log.txt`. While scrolling, it "remembers" the current date ("sticky date") to solve the issue of not having a date header visible on every screen.
+
+3.  **Two-Stage Smart Catch-up**:
+    * **External Tool Driven ( > 15 days)**: When the date gap is large (e.g., > 15 days), the script automatically presses the **F10** key to invoke an external macro tool (like AutoHotkey/QMacro); after a preset time, it presses **F12** to stop and re-evaluates the progress.
+    * **Scroll Wheel Refinement ( <= 15 days)**: When the date gap is small, it switches to simulating small mouse wheel scrolls for fine-grained positioning.
+
+4.  **Fault Tolerance**:
+    * **Position Recalibration**: If it gets "lost" (can't find a date) after high-speed scrolling, it will automatically scroll up to re-orient itself.
+    * **Smart Sleep**: After successfully processing a certain number of articles (e.g., 16), it will automatically sleep for a period (e.g., 12 seconds). This is mainly to prevent the WeChat application from crashing due to prolonged high-load operation (an issue that plagued me for a long time).
+
+## Tech Stack
+
+* Python 3.x
+* **pywinauto**: Used for Windows handle control, element targeting, and keyboard operations (e..g., connecting to the window, sending F10/F12).
+* **pyautogui**: Used for image recognition and mouse simulation (e.g., clicking Like, Forward, Send buttons).
+* **PyYAML**: Used for parsing the `config.yml` configuration file.
+* **OpenCV (cv2) / Numpy**: Underlying dependencies for `pyautogui`, used for image processing.
+
+## Installation and Setup
+
+1.  **Prepare Environment**
+    A Python 3.x environment (e.g., a `venv` virtual environment).
+
+2.  **Install Dependencies**
+    Create a `requirements.txt` file in the project's root directory with the following content:
+
+    ```text
+    pywinauto
+    pyautogui
+    pyyaml
+    opencv-python
+    numpy
+    ```
+
+    Then, run the command to install all dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Prepare Image Templates**
+    This script relies heavily on image recognition. Since I have not uploaded the necessary UI element images, you must manually take screenshots of the following UI elements before starting. Save them by file name in a `templates` folder in the project's root directory.
+
+    1.  `like.png` (The 'Like' icon)
+    2.  `favorite.png` (The 'Favorite' icon)
+    3.  `close.png` (The 'X' close button on an article page)
+    4.  `forward.png` (The 'Forward' icon on an article page)
+    5.  `file_assistant.png` (The "File Transfer Assistant" in the forward panel)
+    6.  `send.png` (The green "Send" button in the forward confirmation panel)
+    7.  `liked.png` (The icon indicating 'Already Liked' status)
+    8.  `favorited.png` (The icon indicating 'Already Favorited' status)
+
+    **Note**: When taking screenshots, keep them as clean and distinct as possible. This directly determines the accuracy of the image recognition.
+
+4.  **Prepare External Scrolling Tool**
+    Install a macro/scripting tool (like QMacro), manually record a mouse wheel "scroll down" action, and set it to be triggered by **F10** and stopped by **F12**. The script will automatically run this action when it cannot find the current date.
+
+5.  **Set Up WeChat Interface**
+    Log in to WeChat, open the "Official Accounts" (Subscriptions) page (where you can see dates and the list of articles under them). Position this window centered vertically and horizontally, filling the screen from top to bottom but leaving space on the left and right (to prevent the script from accidentally clicking the close button). Set your desktop to hide icons. If possible, download and use `Hide Taskbar.exe` to hide the taskbar. You won't be using the computer while this script is running anyway.
+
+6.  **Edit the Code**
+    Replace the file paths in the main code and configuration files with your own. These locations have been marked.
+
+7.  **Run the Script**
+    Open PowerShell **in Administrator Mode**. Resize it so it doesn't obstruct the WeChat window (e.g., place it in the top-left corner). `cd` into the folder where you saved `main.py`. Activate your virtual environment (`venv\Scripts\activate`), and then run `python main.py`. The program will start automatically.
+
+    ```powershell
+    # Example commands:
+    
+    # 1. Change to the script directory
+    cd C:\path\to\your\script\folder
+    
+    # 2. Activate the virtual environment
+    .\venv\Scripts\activate
+    
+    # 3. Run the main program
+    python main.py
+    ```
+
+8.  **Debugging**
+    You can find the end date of the script's last run in the `processed_log.txt` file in the folder. I have also left an option in the code to save screenshots of recognition results; you can enable it by uncommenting the corresponding lines.
 
