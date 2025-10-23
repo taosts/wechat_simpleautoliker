@@ -9,6 +9,7 @@ A simple script program, written in Python, uses a fusion of image recognition a
 >
 > 这个PYTHON脚本本来是用作给某个公众号的所有已发布文章进行自动化点赞转发点心的，后来经过证实：这个操作完全没意义。
 > 不过整个程序经过多次迭代以后，整体运行良好，没什么BUG，所以保留下来做个纪念。
+> 后续不会提供更新，本人不对代码造成的任何影响负责，项目脚本仅供学习使用。如果各位有更好的修改方案，请留个Comment给我，感谢各位。
 
 这是一个专为 **Windows 11** 平台设计的微信PC版“公众号”自动化处理脚本。
 
@@ -105,4 +106,4 @@ A simple script program, written in Python, uses a fusion of image recognition a
 8.  **查BUG**
     你可以在文件夹内的 `processed_log.txt` 中找到你的脚本上一次运行的结尾日期，我也在代码中留了保存识别结果截图的选项，把对应的代码注释给解除就可以用了。
 
-    后续不会提供更新，本人不对代码造成的任何影响负责，项目脚本仅供学习使用。如果各位有更好的修改方案，请留个Comment给我，感谢各位。
+
