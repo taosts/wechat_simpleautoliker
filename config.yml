@@ -1,0 +1,39 @@
+# config.yml
+
+# File paths for the template images used by pyautogui
+templates:
+  like: 'templates/like.png'
+  liked: 'templates/liked.png'
+  favorite: 'templates/favorite.png'
+  favorited: 'templates/favorited.png'
+  close: 'templates/close.png'
+  forward: 'templates/forward.png'
+  file_assistant: 'templates/file_assistant.png'
+  send: 'templates/send.png'
+
+# Confidence thresholds for image matching (0.0 to 1.0)
+confidence:
+  default: 0.9
+
+# Timeouts and delays in seconds
+timeouts:
+  element_wait: 10         # pywinauto 等待元素出现的时间
+  action_delay: 0.5        # pyautogui 点击后的短暂延时
+  scroll_delay: 0.7          # 每次滚动后，等待新文章加载的时间
+  article_load_delay: 6    # 点击文章后，等待文章详情页加载的时间
+  forward_pane_delay: 2    # 新增：点击转发后，等待转发面板加载的时间
+
+# Debugging options
+debugging:
+  save_screenshots: false
+
+# Stability settings for preventing crashes
+stability:
+  batch_size: 16           # 每成功处理 N 篇文章，就触发一次休眠
+  rest_duration_seconds: 12 # 每次休眠的秒数，给予程序充分的恢复时间
+
+# 用于调用自制的追赶进度工具 (通过F10/F12控制)
+fast_forward:
+  # 当日期差距大于30天时，触发外部工具
+  external_tool_run_duration: 8  # 按下F10后，等待N秒再按下F12 (工具运行时间)
+  external_tool_cooldown: 2      # 按下F12后，等待N秒让屏幕稳定并重新识别
